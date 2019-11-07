@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://localhost/product-catalog", {
+mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/product-catalog", {
   useUnifiedTopology: true,
   useNewUrlParser: true
 });
@@ -16,6 +16,6 @@ const routes = require("./routes/");
 // On l'utilise
 app.use(routes);
 
-app.listen(3000, () => {
-  console.log("Server started on port 3000");
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server started on port");
 });

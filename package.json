@@ -4,19 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MisterAlex95/product-catalog.git"
+    "url": "git+https://github.com/rbenrhouma/product-catalog.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MisterAlex95/product-catalog/issues"
+    "url": "https://github.com/rbenrhouma/product-catalog/issues"
   },
-  "homepage": "https://github.com/MisterAlex95/product-catalog#readme",
+  "homepage": "https://github.com/rbenrhouma/product-catalog#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
