@@ -10,7 +10,6 @@ mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/product-catalog
   useNewUrlParser: true
 });
 
-console.log("DataBase name :" + process.env.MONGODB_URL);
 // On recupere le router du fichier ./routes/index.js
 const routes = require("./routes/");
 
@@ -23,5 +22,6 @@ app.all("*", (req, res) => {
 });
 
 app.listen(process.env.PORT || 3000, () => {
+  console.log("DataBase name :" + process.env.MONGODB_URL);
   console.log("Server démarré sur le port : " + process.env.PORT || 3000);
 });
