@@ -18,7 +18,7 @@ app.use(routes);
 
 // si aucune page n'est disponible.
 app.all("*", (req, res) => {
-  res.status(404).send("Page introuvable dans Drugstore");
+  res.status(404).send("Page introuvable dans products ...");
 });
 
 app.listen(process.env.PORT || 3000, () => {
