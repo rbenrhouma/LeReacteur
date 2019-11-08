@@ -16,8 +16,11 @@ const routes = require("./routes/");
 // On l'utilise
 app.use(routes);
 
-// port = process.env.PORT || 3000;
+// si aucune page n'est disponible.
+app.all("*", (req, res) => {
+  res.status(404).send("Page introuvable dans Drugstore");
+});
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log("Server démarré sur le port : " + process.env.PORT);
+  console.log("Server démarré sur le port : " + process.env.PORT || 3000);
 });
