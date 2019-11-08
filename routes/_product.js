@@ -54,12 +54,8 @@ router.get("/", async (req, res) => {
       const limit = 2;
       search.limit(limit).skip(limit * page);
     }
-    console.log("before");
-
     // ici attend la fin de la recherche et on range tout dans products
     const products = await search;
-    console.log(products.length);
-    console.log(products);
     res.json(products);
   } catch (error) {
     res.status(400).json({ error: error.message });

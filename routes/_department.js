@@ -4,6 +4,7 @@ const router = express.Router();
 // Recuperer le model Department
 const Department = require("../models/Department");
 const Category = require("../models/Category");
+const Product = require("../models/Product");
 
 router.get("/", async (req, res) => {
   try {
@@ -51,19 +52,29 @@ router.put("/update", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
   try {
-    const id = req.query.id;
-    if (id) {
-      const department = await Department.findById(id); // Ici on recupere un département qui a comme id : req.body.id
-      const category = await Category.findOne({ department: department._id });
-      if (category) {
-        if (!removeAllCategory(department._id)) {
-          res.send("Error deleting category");
-          return;
+    const departmentId = req.query.id;
+    if (departmentId) {
+      // Ici on recupere un département qui a comme id : departmentId
+      const department = await Department.findById(departmentId);
+
+      if (department) {
+        // On recupere toute les categories qui lui sont associées
+        const categoryToRemove = await Category.find({
+          department: departmentId
+        });
+
+        // On parcourt toute les categories
+        for (let i = 0; i < categoryToRemove.length; i++) {
+          // Pour chacune d'elles on supprime tous ses produits
+          await Product.deleteMany({ category: categoryToRemove[i]._id });
+          // Puis on la supprime
+          await categoryToRemove[i].remove();
         }
-        //res.send("Department can't be removed because there is categorys related ");
-      }
-      await department.remove();
-      res.send("Department is delited");
+
+        // On supprime enfin le departement
+        await department.remove();
+      } else return res.status(400).json({ error: "Department not found" });
+      res.send("Ok");
     } else {
       res.status(400).json({ error: "Wrong parameters" });
     }
@@ -71,15 +82,5 @@ router.delete("/delete", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
-const removeAllCategory = async departmentId => {
-  try {
-    const categorys = await Category.find({ department: departmentId });
-    await categorys.remove();
-    return true;
-  } catch {
-    return false;
-  }
-};
 
 module.exports = router;

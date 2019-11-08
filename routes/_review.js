@@ -4,42 +4,64 @@ const router = express.Router();
 const Review = require("../models/Review");
 const Product = require("../models/Product");
 
-// router.get("/", async (req, res) => {
-//   try {
-//     const reviews = await Review.find();
-//     res.json(reviews);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// });
+router.get("/", async (req, res) => {
+  try {
+    const reviews = await Review.find();
+    res.json(reviews);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+const calculateRating = product => {
+  if (product.reviews.length === 0) {
+    return 0;
+  }
+
+  let rating = 0;
+  for (let i = 0; i < product.reviews.length; i++) {
+    rating += product.reviews[i].rating;
+  }
+
+  rating /= product.reviews.length;
+  rating = Number(rating.toFixed(1));
+  return rating;
+};
 
 router.post("/create", async (req, res) => {
-  try {
-    const productID = req.body.product;
-    const rating = req.body.rating;
-    const comment = req.body.comment;
-    const username = req.body.username;
-    const product = await Product.findById(productID);
+  const rating = req.body.rating;
+  const comment = req.body.comment;
+  const username = req.body.username;
+  const productId = req.body.product;
 
+  try {
+    // On recupere le produit grace a l'id
+    const product = await Product.findById(productId).populate("reviews");
     if (product) {
+      // On check si il y a deja des reviews, si non on initialise reviews
+      if (product.reviews === undefined) {
+        product.reviews = [];
+      }
+
+      // On cree notre review
       const review = new Review({
         rating: rating,
         comment: comment,
         username: username
       });
-
-      if (product.reviews === undefined) {
-        product.reviews = [];
-      }
-
       await review.save();
-      product.reviews.push(review);
-      product.averageRating = 5; //calcAverage(product.reviews);
 
+      // On ajoute notre review a notre produit
+      product.reviews.push(review);
+
+      const rate = calculateRating(product);
+      product.averageRating = rate;
+
+      // On sauvegarde notre produit
       await product.save();
-      res.json(product);
+      res.status(201).send("Review created");
     } else {
-      res.status(400).json({ error: "Product not found" });
+      res.status(400).json({ message: "Review not found" });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -48,16 +70,7 @@ router.post("/create", async (req, res) => {
 
 router.put("/update", async (req, res) => {
   try {
-    const id = req.query.id;
-    const title = req.body.title;
-    if (id && title) {
-      const review = await Review.findById(id);
-      review.title = title;
-      await review.save();
-      res.json(review);
-    } else {
-      res.status(400).json({ error: "Wrong parameters" });
-    }
+    res.status(200).json(product);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -65,11 +78,8 @@ router.put("/update", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
   try {
-    const id = req.query.id;
-    if (id) {
-      const review = await Review.findById(id);
-      await review.remove();
-      res.send("Review is delited");
+    const reviewId = req.query.id;
+    if (reviewId) {
     } else {
       res.status(400).json({ error: "Wrong parameters" });
     }
@@ -77,16 +87,5 @@ router.delete("/delete", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
-const calcAverage = async array => {
-  const reviews = await Review.find();
-  console.log(reviews);
-  var s = 0;
-  for (let i = 0; i < reviews.find().count; i++) {}
-
-  console.log(array);
-  if (array.length > 0) return s / array.length;
-  else return 0;
-};
 
 module.exports = router;
