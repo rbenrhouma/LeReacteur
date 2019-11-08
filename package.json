@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "log": "heroku logs --tail"
+    "log": "heroku logs --tail",
+    "commit": "git add . "
   },
   "repository": {
     "type": "git",
