@@ -29,12 +29,12 @@ const createFilters = req => {
 router.get("/", async (req, res) => {
   try {
     const filters = createFilters(req); // On genere les filtres avec ce qu'il y a dans la query
-    console.log(filters);
+
     // On lance une recherche avec les potentiels filtres sur les produits
     const search = Product.find(filters)
       .populate("category")
       .populate("reviews");
-    console.log("test XX");
+
     if (req.query.sort === "rating-asc") {
       // ici on ajoute a notre recherche un tri
       search.sort({ averageRating: 1 });
@@ -55,10 +55,11 @@ router.get("/", async (req, res) => {
       search.limit(limit).skip(limit * page);
     }
     console.log("before");
-    console.log(products);
+
     // ici attend la fin de la recherche et on range tout dans products
     const products = await search;
-
+    console.log(products.length);
+    console.log(products);
     res.json(products);
   } catch (error) {
     res.status(400).json({ error: error.message });
