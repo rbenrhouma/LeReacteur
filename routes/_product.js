@@ -5,6 +5,7 @@ const Product = require("../models/Product");
 const Category = require("../models/Category");
 
 router.get("/", async (req, res) => {
+  console.log("yes products list");
   try {
     var query = {};
     if (req.query.priceMin || req.query.priceMax || req.query.category) query["$and"] = [];
