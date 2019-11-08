@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/product-catalog", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/product-catalog", {
   useUnifiedTopology: true,
   useNewUrlParser: true
 });
@@ -22,6 +22,6 @@ app.all("*", (req, res) => {
 });
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log("DataBase name :" + process.env.MONGODB_URL);
+  console.log("DataBase name :" + process.env.MONGODB_URI);
   console.log("Server démarré sur le port : " + process.env.PORT || 3000);
 });
