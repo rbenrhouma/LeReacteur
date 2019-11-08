@@ -1,21 +1,21 @@
 {
-  "name": "product-catalog",
+  "name": "LeReacteur",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
     "start": "node index.js",
-    "log": "heroku logs --tail",
-    "commit": "git add . && git commit -m $COMMIT && git push "
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "fire": "git add . && git commit -m 'pas le temps il y a le feu' && git push",
+    "log": "heroku logs --tail"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rbenrhouma/LeReacteur.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ridha BEN RHOUMA",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/rbenrhouma/LeReacteur/issues"
