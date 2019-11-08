@@ -1,16 +1,10 @@
 const mongoose = require("mongoose");
-var Schema = mongoose.Schema;
 
-let schema = new Schema(
-  {
-    title: {
-      type: String,
-      default: ""
-    }
-  },
-  { versionKey: false }
-);
-
-var Department = mongoose.model("Department", schema);
+const Department = mongoose.model("Department", {
+  title: {
+    type: String,
+    default: ""
+  }
+});
 
 module.exports = Department;
