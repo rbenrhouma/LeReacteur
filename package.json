@@ -8,7 +8,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "log": "heroku logs --tail",
-    "commit": "git add . "
+    "commit": "git add . && git commit -m $COMMIT && git push "
   },
   "repository": {
     "type": "git",
