@@ -10,7 +10,8 @@ router.get("/", async (req, res) => {
   try {
     // On recupere toute les categories
     const categories = await Category.find().populate("department");
-    res.json(categories);
+
+    res.json(`{html= <a href="../">Retour><a>}` + categories);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
