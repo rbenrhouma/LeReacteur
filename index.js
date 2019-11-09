@@ -16,6 +16,10 @@ const routes = require("./routes/");
 // On l'utilise
 app.use(routes);
 
+app.get("/", (req, res) => {
+  res.sendFile("index.html");
+});
+
 // si aucune page n'est disponible.
 app.all("*", (req, res) => {
   res.status(404).send("Page introuvable dans products ...");
