@@ -17,7 +17,7 @@ const routes = require("./routes/");
 app.use(routes);
 
 app.get("/", (req, res) => {
-  res.sendFile("index.html");
+  res.sendFile("./index.html");
 });
 
 // si aucune page n'est disponible.
